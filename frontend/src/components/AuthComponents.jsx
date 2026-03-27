@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../hooks/useAuth';
 import AuthModal from './AuthModal';
 
 // SignedIn component - shows content only when user is authenticated

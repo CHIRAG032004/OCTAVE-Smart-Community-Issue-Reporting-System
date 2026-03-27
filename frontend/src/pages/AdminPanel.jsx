@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useAuth } from '../contexts/AuthContext'
+import { useAuth } from '../hooks/useAuth'
 import { getAllIssues } from '../api/Issues';
 import Stats from '../components/admin/Stats';
 import Loader from '../components/extras/Loader';
@@ -11,35 +11,39 @@ import Logs from './Logs';
 
 const AdminPanel = () => {
   const { isAdmin, loading, getToken } = useAuth();
+  const [issues, setIssues] = useState([]);
+  const [loadingIssues, setLoadingIssues] = useState(false);
+  const [activeTab, setActiveTab] = useState('dashboard'); // dashboard, logs
   const isAdminUser = isAdmin();
+
+  useEffect(() => {
+    if (loading || !isAdminUser) {
+      return;
+    }
+
+    const fetchIssues = async () => {
+      try {
+        setLoadingIssues(true);
+        const token = await getToken();
+        const data = await getAllIssues(token);
+        setIssues(data);
+      } catch (error) {
+        console.error('Error fetching issues:', error);
+        alert('Error fetching issues');
+      } finally {
+        setLoadingIssues(false);
+      }
+    };
+
+    fetchIssues();
+  }, [getToken, isAdminUser, loading]);
+
   if (loading) return <div className="h-[90vh] grid items-center justify-center"><Loader /></div>;
   if (!isAdminUser) return <div className="h-[90vh] grid items-center justify-center">
     <h2>You do not have access to this page</h2>
   </div>;
-  const [issues, setIssues] = useState([]);
-  const [showIssuePopup, setShowIssuePopup] = useState(false);
-  const [loadingIssues, setLoadingIssues] = useState(false);
-  const [activeTab, setActiveTab] = useState('dashboard'); // dashboard, logs
-
-
-  const fetchIssues = async () => {
-    try {
-      setLoadingIssues(true);
-      const token = await getToken();
-      const data = await getAllIssues(token);
-      setIssues(data);
-    } catch (error) {
-      alert("Error fetching issues");
-    } finally {
-      setLoadingIssues(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchIssues();
-  }, []);
   return (
-    <div className={`max-w-6xl mx-auto p-4 transition-opacity duration-300 ${showIssuePopup ? 'opacity-40 blur-sm pointer-events-none' : 'opacity-100'}`}>
+    <div className="max-w-6xl mx-auto p-4 transition-opacity duration-300">
       
       {/* Tab Navigation */}
       <div className="mb-6">

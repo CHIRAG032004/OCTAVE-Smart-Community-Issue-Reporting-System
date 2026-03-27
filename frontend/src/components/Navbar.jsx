@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { SignedIn, SignedOut, SignInButton, UserButton, SignOutButton } from '../components/AuthComponents'
-import { useAuth } from '../contexts/AuthContext'
+import { SignedIn, SignedOut, SignInButton, SignOutButton } from '../components/AuthComponents'
+import { useAuth } from '../hooks/useAuth'
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);

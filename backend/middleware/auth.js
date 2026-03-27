@@ -1,5 +1,3 @@
-const { users } = require('../lib/appwrite');
-
 const requireAuth = () => {
     return async (req, res, next) => {
         try {

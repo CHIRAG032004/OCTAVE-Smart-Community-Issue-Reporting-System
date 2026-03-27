@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { getUsersIssues } from '../api/Issues'
 import { useState, useEffect } from 'react'
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../hooks/useAuth';
 import { SignedIn, SignedOut, SignInButton } from '../components/AuthComponents';
 import IssuePopup from '../components/IssuePopup'
 import Loader from '../components/extras/Loader'
@@ -19,28 +19,39 @@ const Dashboard = () => {
     setShowIssuePopup(true);
   }
   
-  const fetchUserIssues = async () => {
-    if (!user) return;
-    
-    
-    try {
-      setLoading(true);
-      const token = await getToken();
-      const userId = user.$id; // according to Appwrite user ID format
-      const issues = await getUsersIssues(token, userId)
-      setUserIssues(issues);
-    } catch (error) {
-      console.error("Error fetching user issues:", error)
-    }
-    finally {
-      setLoading(false);
-    }
-  }
   useEffect(() => {
-    if (user) {
-      fetchUserIssues();
+    if (!user) {
+      setUserIssues([]);
+      return;
     }
-  }, [user])
+
+    let ignore = false;
+
+    const fetchUserIssues = async () => {
+      try {
+        setLoading(true);
+        const token = await getToken();
+        const userId = user.$id;
+        const issues = await getUsersIssues(token, userId)
+        if (!ignore) {
+          setUserIssues(issues);
+        }
+      } catch (error) {
+        console.error("Error fetching user issues:", error)
+      }
+      finally {
+        if (!ignore) {
+          setLoading(false);
+        }
+      }
+    }
+
+    fetchUserIssues();
+
+    return () => {
+      ignore = true;
+    };
+  }, [getToken, user])
 
   return (
     <div className="relative">

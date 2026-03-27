@@ -59,12 +59,34 @@ Setup your `.env` files with the following variables:
 PORT=3000
 MONGODB_URI=mongodb://localhost:27017/smart-community
 APPWRITE_PROJECT_ID=your_appwrite_project_id
-CLOUD_NAME=your_cloudinary_cloud_name
-CLOUD_API_KEY=your_cloudinary_api_key
-CLOUD_API_SECRET=your_cloudinary_api_secret
+APPWRITE_ENDPOINT=https://cloud.appwrite.io/v1
+APPWRITE_API_KEY=your_appwrite_api_key
+CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 OPENROUTER_API_KEY=your_openrouter_api_key
 OPENCAGE_API_KEY=your_opencage_api_key
 ```
+
+**MongoDB Atlas (.env alternative):**
+```env
+PORT=3000
+MONGODB_USERNAME=your_atlas_username
+MONGODB_PASSWORD=your_atlas_password
+MONGODB_CLUSTER=cluster0.xxxxx.mongodb.net
+MONGODB_DB_NAME=smart-community
+MONGODB_OPTIONS=retryWrites=true&w=majority&appName=SmartCommunity
+APPWRITE_ENDPOINT=https://cloud.appwrite.io/v1
+APPWRITE_PROJECT_ID=your_appwrite_project_id
+APPWRITE_API_KEY=your_appwrite_api_key
+CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+OPENROUTER_API_KEY=your_openrouter_api_key
+OPENCAGE_API_KEY=your_opencage_api_key
+```
+
+If `MONGODB_URI` is set, the backend uses it directly. If it is not set, the backend automatically builds a MongoDB Atlas connection string from the Atlas variables above.
 
 **Frontend (.env):**
 ```env

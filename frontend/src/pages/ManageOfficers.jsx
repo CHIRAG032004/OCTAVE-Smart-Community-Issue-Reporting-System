@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { useAuth } from '../contexts/AuthContext'
+import { useAuth } from '../hooks/useAuth'
 import { X, Edit, Trash2, UserPlus, Phone, Mail, MapPin, Tag } from 'lucide-react'
 import { getOfficers, createOfficer, updateOfficer, deleteOfficer } from '../api/Officers'
 
@@ -31,26 +31,31 @@ const ManageOfficers = () => {
   ];
 
   useEffect(() => {
-    fetchOfficers();
-  }, []);
+    let ignore = false;
 
-  useEffect(() => {
-    fetchOfficers();
-  }, []);
+    const fetchOfficers = async () => {
+      setLoading(true);
+      try {
+        const token = await getToken();
+        const officersData = await getOfficers(token);
+        if (!ignore) {
+          setOfficers(officersData);
+        }
+      } catch (error) {
+        console.error('Error fetching officers:', error);
+      } finally {
+        if (!ignore) {
+          setLoading(false);
+        }
+      }
+    };
 
-  const fetchOfficers = async () => {
-    setLoading(true);
-    try {
-      const token = await getToken();
-      const officersData = await getOfficers(token);
-      setOfficers(officersData);
-    } catch (error) {
-      console.error('Error fetching officers:', error);
-      // You could add a toast notification here
-    } finally {
-      setLoading(false);
-    }
-  };
+    fetchOfficers();
+
+    return () => {
+      ignore = true;
+    };
+  }, [getToken]);
 
   const resetForm = () => {
     setFormData({

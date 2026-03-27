@@ -129,7 +129,7 @@ const IssueChart = ({ issues }) => {
 
     issues.forEach(issue => {
       const status = issue.status || 'open';
-      if (statusCount.hasOwnProperty(status)) {
+      if (Object.hasOwn(statusCount, status)) {
         statusCount[status]++;
       }
     });

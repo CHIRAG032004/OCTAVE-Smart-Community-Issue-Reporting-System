@@ -1,17 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { useAuth } from '../../contexts/AuthContext';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useAuth } from '../../hooks/useAuth';
 import axios from 'axios';
 import { 
-  FileText, 
   AlertTriangle, 
   AlertCircle, 
   Info, 
   Clock, 
-  User, 
-  Filter,
   Search,
   RefreshCw,
-  Download,
   Trash2
 } from 'lucide-react';
 import Loader from '../extras/Loader';
@@ -35,7 +31,7 @@ const LogViewer = () => {
 
   const BASE_API_URL = import.meta.env.VITE_BACKEND_URL;
 
-  const fetchLogs = async () => {
+  const fetchLogs = useCallback(async () => {
     try {
       setLoading(true);
       const token = await getToken();
@@ -64,9 +60,9 @@ const LogViewer = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [BASE_API_URL, filters, getToken, searchQuery]);
 
-  const fetchStats = async () => {
+  const fetchStats = useCallback(async () => {
     try {
       const token = await getToken();
       const response = await axios.get(
@@ -77,7 +73,7 @@ const LogViewer = () => {
     } catch (error) {
       console.error('Error fetching log stats:', error);
     }
-  };
+  }, [BASE_API_URL, getToken]);
 
   const cleanupOldLogs = async () => {
     if (!window.confirm('Are you sure you want to delete logs older than 90 days?')) return;
@@ -100,7 +96,7 @@ const LogViewer = () => {
   useEffect(() => {
     fetchLogs();
     fetchStats();
-  }, [filters]);
+  }, [fetchLogs, fetchStats]);
 
   const getSeverityIcon = (severity) => {
     switch (severity) {

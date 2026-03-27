@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import uploadImage from '../utils/uploadImage';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../hooks/useAuth';
 import { SignedIn, SignedOut, SignInButton } from '../components/AuthComponents';
-import { createIssue, testAuth } from '../api/Issues';
+import { createIssue } from '../api/Issues';
 
 const ReportIssue = () => {
     const [fileName, setFileName] = useState('No file chosen');
     const [loading, setLoading] = useState(false);
-    const { getToken, isSignedIn, user } = useAuth();
+    const { getToken, user } = useAuth();
 
 
     const [file, setFile] = useState(null);

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { getAllIssues, updateIssueStatus, getFilteredIssues, searchIssues } from '../api/Issues'
 import IssuePopup from '../components/IssuePopup.jsx'
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../hooks/useAuth';
 import { Search, Filter, X } from 'lucide-react';
 
 const ManageIssues = () => {
@@ -20,42 +20,47 @@ const ManageIssues = () => {
   });
   const [showFilters, setShowFilters] = useState(false);
 
-  const { user, getToken } = useAuth();
-
-  const fetchIssues = async () => {
-    setLoading(true);
-    try {
-      let data;
-      if (searchQuery.trim()) {
-        // Use search API if there's a search query
-        data = await searchIssues(searchQuery, filters);
-      } else if (filters.status || filters.city) {
-        // Use filtered API if filters are applied
-        data = await getFilteredIssues(filters);
-      } else {
-        // Use regular API for all issues
-        data = await getAllIssues();
-      }
-      setIssues(data);
-    } catch (error) {
-      console.error('Error fetching issues:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { getToken } = useAuth();
 
   // Effect to refetch issues when search or filters change
   useEffect(() => {
+    let ignore = false;
+
     const debounceTimer = setTimeout(() => {
+      const fetchIssues = async () => {
+        setLoading(true);
+        try {
+          const token = await getToken();
+          let data;
+
+          if (searchQuery.trim()) {
+            data = await searchIssues(searchQuery, token);
+          } else if (filters.status || filters.city) {
+            data = await getFilteredIssues(filters, token);
+          } else {
+            data = await getAllIssues(token);
+          }
+
+          if (!ignore) {
+            setIssues(data);
+          }
+        } catch (error) {
+          console.error('Error fetching issues:', error);
+        } finally {
+          if (!ignore) {
+            setLoading(false);
+          }
+        }
+      };
+
       fetchIssues();
     }, 300); // Debounce search to avoid too many API calls
 
-    return () => clearTimeout(debounceTimer);
-  }, [searchQuery, filters]);
-
-  useEffect(() => {
-    fetchIssues()
-  }, [])
+    return () => {
+      ignore = true;
+      clearTimeout(debounceTimer);
+    };
+  }, [filters, getToken, searchQuery]);
 
   const handleShowIssuePopup = (issue) => {
     setCurrentIssue(issue);
@@ -75,7 +80,11 @@ const ManageIssues = () => {
     try {
       const token = await getToken();
       await updateIssueStatus(issueId, status, token);
-      fetchIssues();
+      setIssues((prevIssues) =>
+        prevIssues.map((issue) =>
+          issue._id === issueId ? { ...issue, status } : issue
+        )
+      );
     } catch (error) {
       console.error("Error updating issue status:", error);
     }

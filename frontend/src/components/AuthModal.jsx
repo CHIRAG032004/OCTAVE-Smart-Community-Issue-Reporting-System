@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../hooks/useAuth';
 
 const AuthModal = ({ isOpen, onClose, mode = 'login' }) => {
     const [currentMode, setCurrentMode] = useState(mode);
@@ -32,7 +32,7 @@ const AuthModal = ({ isOpen, onClose, mode = 'login' }) => {
                     setError(result.error);
                 }
             }
-        } catch (err) {
+        } catch {
             setError('An unexpected error occurred');
         } finally {
             setLoading(false);

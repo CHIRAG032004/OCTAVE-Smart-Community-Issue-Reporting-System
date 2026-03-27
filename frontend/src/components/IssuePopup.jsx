@@ -1,5 +1,5 @@
-import React, { use, useEffect, useState } from 'react'
-import { useAuth } from '../contexts/AuthContext'
+import React, { useEffect, useState } from 'react'
+import { useAuth } from '../hooks/useAuth'
 import { TrendingUp } from 'lucide-react';
 import axios from 'axios';
 
