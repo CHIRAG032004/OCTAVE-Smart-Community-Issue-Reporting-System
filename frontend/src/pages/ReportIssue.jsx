@@ -19,6 +19,15 @@ const ReportIssue = () => {
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
+
+        if (file && file.size > 1024 * 1024) {
+            alert('Please choose an image smaller than 1 MB.');
+            e.target.value = '';
+            setFileName('No file chosen');
+            setFile(null);
+            return;
+        }
+
         setFileName(file ? file.name : 'No file chosen');
         setFile(file);
     };
@@ -66,7 +75,7 @@ const ReportIssue = () => {
                 }
             });
             console.log('Uploading image...');
-            const imageData = await uploadImage(file, token);
+            const imageData = await uploadImage(file);
 
             console.log('Creating issue...');
             const issueData = {
@@ -86,7 +95,11 @@ const ReportIssue = () => {
 
         } catch (error) {
             console.error("Error reporting issue:", error);
-            alert("Failed to report issue: " + (error.response?.data?.error || error.message));
+            const errorMessage =
+                error.response?.data?.error ||
+                error.response?.data?.msg ||
+                error.message;
+            alert("Failed to report issue: " + errorMessage);
         }
         finally {
             setLoading(false);

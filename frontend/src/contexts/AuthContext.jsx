@@ -1,27 +1,57 @@
 import React, { useEffect, useState } from 'react';
-import { account, isAppwriteConfigured } from '../lib/appwrite';
+import { ID, account, isAppwriteConfigured } from '../lib/appwrite';
 import { AuthContext } from './auth-context';
 
-const APPWRITE_ERROR =
-  'Appwrite is not configured. Add VITE_APPWRITE_ENDPOINT and VITE_APPWRITE_PROJECT_ID to the frontend .env file.';
+const DEMO_USERS_KEY = 'smart-community-demo-users';
+const DEMO_SESSION_KEY = 'smart-community-demo-session';
+
+const readDemoUsers = () => {
+  try {
+    return JSON.parse(window.localStorage.getItem(DEMO_USERS_KEY) || '[]');
+  } catch {
+    return [];
+  }
+};
+
+const saveDemoUsers = (users) => {
+  window.localStorage.setItem(DEMO_USERS_KEY, JSON.stringify(users));
+};
+
+const readDemoSession = () => {
+  try {
+    return JSON.parse(window.localStorage.getItem(DEMO_SESSION_KEY) || 'null');
+  } catch {
+    return null;
+  }
+};
+
+const saveDemoSession = (session) => {
+  if (session) {
+    window.localStorage.setItem(DEMO_SESSION_KEY, JSON.stringify(session));
+    return;
+  }
+
+  window.localStorage.removeItem(DEMO_SESSION_KEY);
+};
+
+const buildDemoUser = ({ email, name = '' }) => ({
+  $id: ID.unique(),
+  email,
+  name: name || email.split('@')[0],
+  labels: email.toLowerCase().includes('admin') ? ['admin'] : [],
+});
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!isAppwriteConfigured || !account) {
-      setUser(null);
-      setLoading(false);
-      return;
-    }
-
     checkUser();
   }, []);
 
   const checkUser = async () => {
-    if (!account) {
-      setUser(null);
+    if (!isAppwriteConfigured || !account) {
+      setUser(readDemoSession());
       setLoading(false);
       return;
     }
@@ -38,8 +68,19 @@ export const AuthProvider = ({ children }) => {
   };
 
   const login = async (email, password) => {
-    if (!account) {
-      return { success: false, error: APPWRITE_ERROR };
+    if (!isAppwriteConfigured || !account) {
+      const users = readDemoUsers();
+      const demoUser = users.find(
+        (item) => item.email.toLowerCase() === email.toLowerCase() && item.password === password
+      );
+
+      if (!demoUser) {
+        return { success: false, error: 'Demo account not found. Please sign up first.' };
+      }
+
+      saveDemoSession(demoUser.user);
+      setUser(demoUser.user);
+      return { success: true };
     }
 
     try {
@@ -53,8 +94,21 @@ export const AuthProvider = ({ children }) => {
   };
 
   const register = async (email, password, name) => {
-    if (!account) {
-      return { success: false, error: APPWRITE_ERROR };
+    if (!isAppwriteConfigured || !account) {
+      const users = readDemoUsers();
+      const alreadyExists = users.some((item) => item.email.toLowerCase() === email.toLowerCase());
+
+      if (alreadyExists) {
+        return { success: false, error: 'Demo account already exists. Please sign in.' };
+      }
+
+      const demoUser = buildDemoUser({ email, name });
+      const nextUsers = [...users, { email, password, user: demoUser }];
+
+      saveDemoUsers(nextUsers);
+      saveDemoSession(demoUser);
+      setUser(demoUser);
+      return { success: true };
     }
 
     try {
@@ -68,7 +122,8 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    if (!account) {
+    if (!isAppwriteConfigured || !account) {
+      saveDemoSession(null);
       setUser(null);
       return { success: true };
     }
@@ -84,8 +139,8 @@ export const AuthProvider = ({ children }) => {
   };
 
   const getToken = async () => {
-    if (!account) {
-      return null;
+    if (!isAppwriteConfigured || !account) {
+      return readDemoSession()?.$id || null;
     }
 
     try {
