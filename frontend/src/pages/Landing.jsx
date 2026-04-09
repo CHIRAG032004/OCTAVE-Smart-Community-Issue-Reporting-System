@@ -34,7 +34,7 @@ export default function Landing() {
       votes: 42,
       time: "2h ago",
       size: "large",
-      imageUrl: "https://res.cloudinary.com/da3wjnlzg/image/upload/v1759934831/JagOrukImageContainer/vsgmbboktdap1v5elbls.jpg"
+      imageUrl: "https://res.cloudinary.com/da3wjnlzg/image/upload/v1759934831/OCTAVEImageContainer/vsgmbboktdap1v5elbls.jpg"
     },
     {
       title: "Pothole on Highway",
