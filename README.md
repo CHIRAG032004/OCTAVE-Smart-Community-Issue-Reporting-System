@@ -27,7 +27,7 @@ OCTAVE is a web application that allows citizens to report local issues with GPS
 
 ### System Architecture
 
-![System Architecture Diagram](./docs/Jagruk_Diagram.png)
+![System Architecture Diagram](./docs/Jagk_Diagram.png)
 
 *Overview of the Smart Community Issue Reporting System's technical architecture, showing the React frontend, Node.js backend, MongoDB database, and external service integrations.*
 

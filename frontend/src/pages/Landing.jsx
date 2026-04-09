@@ -34,7 +34,7 @@ export default function Landing() {
       votes: 42,
       time: "2h ago",
       size: "large",
-      imageUrl: "https://res.cloudinary.com/da3wjnlzg/image/upload/v1759934831/JagrukImageContainer/vsgmbboktdap1v5elbls.jpg"
+      imageUrl: "https://res.cloudinary.com/da3wjnlzg/image/upload/v1759934831/JagOrukImageContainer/vsgmbboktdap1v5elbls.jpg"
     },
     {
       title: "Pothole on Highway",
@@ -122,51 +122,51 @@ export default function Landing() {
       <section id="home" className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-10 sm:pt-24">
         <div className="max-w-7xl mx-auto text-center relative z-10">
           <div className="inline-flex items-center gap-2 bg-white/60 backdrop-blur-sm border border-gray-200/50 rounded-full px-4 py-2 mb-8 shadow-sm">
-              <Sparkles className="w-4 h-4 text-[#ff9a47]" />
-              <span className="text-sm text-gray-700">Empowering Citizens</span>
+            <Sparkles className="w-4 h-4 text-[#ff9a47]" />
+            <span className="text-sm text-gray-700">Empowering Citizens</span>
+          </div>
+
+          <h1
+            className="text-5xl sm:text-6xl lg:text-8xl font-bold mb-6 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-600 bg-clip-text text-transparent leading-tight"
+          >
+            Report Issues.
+            <br />
+            <span className="bg-gradient-to-r from-[#ff9a47] via-orange-500 to-orange-600 bg-clip-text text-transparent">
+              Build Change.
+            </span>
+          </h1>
+
+          <p className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
+            Join thousands of citizens making their communities better, one report at a time.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div>
+              <LinkComponent to="/report" className="bg-gradient-to-r from-[#ff9a47] to-orange-500 hover:from-[#ff9a47]/90 hover:to-orange-500/90 text-white px-8 py-6 rounded-full shadow-2xl shadow-[#ff9a47]/30 border-0 group">
+                Start Reporting
+                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </LinkComponent>
             </div>
+            <div>
+              <LinkComponent to="/community" className="bg-white/60 backdrop-blur-sm hover:bg-white/80 text-gray-900 px-8 py-6 rounded-full border border-gray-200/50 shadow-lg">
+                View Issues
+              </LinkComponent>
+            </div>
+          </div>
 
-            <h1
-              className="text-5xl sm:text-6xl lg:text-8xl font-bold mb-6 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-600 bg-clip-text text-transparent leading-tight"
-            >
-              Report Issues.
-              <br />
-              <span className="bg-gradient-to-r from-[#ff9a47] via-orange-500 to-orange-600 bg-clip-text text-transparent">
-                Build Change.
-              </span>
-            </h1>
-
-            <p className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
-              Join thousands of citizens making their communities better, one report at a time.
-            </p>
-
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <div>
-                <LinkComponent to="/report" className="bg-gradient-to-r from-[#ff9a47] to-orange-500 hover:from-[#ff9a47]/90 hover:to-orange-500/90 text-white px-8 py-6 rounded-full shadow-2xl shadow-[#ff9a47]/30 border-0 group">
-                  Start Reporting
-                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </LinkComponent>
+          {/* Static stats */}
+          <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+            {stats.map((stat, index) => (
+              <div
+                key={index}
+                className="bg-white/60 backdrop-blur-sm border border-gray-200/50 rounded-2xl p-6 hover:bg-white/80 hover:shadow-xl transition-all duration-300"
+              >
+                <stat.icon className="w-8 h-8 text-[#ff9a47] mb-3 mx-auto" />
+                <div className="text-3xl font-bold mb-1 text-gray-900">{stat.value}</div>
+                <div className="text-sm text-gray-600">{stat.label}</div>
               </div>
-              <div>
-                <LinkComponent to="/community" className="bg-white/60 backdrop-blur-sm hover:bg-white/80 text-gray-900 px-8 py-6 rounded-full border border-gray-200/50 shadow-lg">
-                  View Issues
-                </LinkComponent>
-              </div>
-            </div>
-
-            {/* Static stats */}
-            <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
-              {stats.map((stat, index) => (
-                <div
-                  key={index}
-                  className="bg-white/60 backdrop-blur-sm border border-gray-200/50 rounded-2xl p-6 hover:bg-white/80 hover:shadow-xl transition-all duration-300"
-                >
-                  <stat.icon className="w-8 h-8 text-[#ff9a47] mb-3 mx-auto" />
-                  <div className="text-3xl font-bold mb-1 text-gray-900">{stat.value}</div>
-                  <div className="text-sm text-gray-600">{stat.label}</div>
-                </div>
-              ))}
-            </div>
+            ))}
+          </div>
         </div>
 
         {/* Static scroll indicator */}
@@ -198,7 +198,7 @@ export default function Landing() {
                 <div className="relative bg-white/60 backdrop-blur-xl border border-gray-200/50 rounded-3xl p-8 hover:bg-white/80 hover:shadow-2xl transition-all duration-500 overflow-hidden">
                   {/* Gradient overlay */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${step.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
-                  
+
                   {/* Step number */}
                   <div className="absolute top-4 right-4 text-6xl font-bold opacity-5 group-hover:opacity-10 transition-opacity text-gray-900">
                     {index + 1}
@@ -239,11 +239,11 @@ export default function Landing() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-[200px]">
             {issueCards.map((issue, index) => {
-              const sizeClass = issue.size === 'large' 
-                ? 'md:col-span-2 md:row-span-2' 
+              const sizeClass = issue.size === 'large'
+                ? 'md:col-span-2 md:row-span-2'
                 : issue.size === 'medium'
-                ? 'md:col-span-2'
-                : 'md:col-span-1';
+                  ? 'md:col-span-2'
+                  : 'md:col-span-1';
 
               return (
                 <div
@@ -262,11 +262,11 @@ export default function Landing() {
                           </Badge>
                           <span className="text-xs text-gray-500">{issue.time}</span>
                         </div>
-                        
+
                         <h3 className="text-lg font-semibold text-gray-900 mb-3 group-hover:text-[#ff9a47] group-hover:text-shadow-zinc-950 transition-colors">
                           {issue.title}
                         </h3>
-                        
+
                         <div className="flex items-center gap-2 text-gray-600 mb-4">
                           <MapPin className="w-4 h-4" />
                           <span className="text-sm">{issue.location}</span>
@@ -296,7 +296,7 @@ export default function Landing() {
           <div className="relative bg-gradient-to-br from-[#ff9a47] to-orange-500 backdrop-blur-xl border border-orange-400/30 rounded-[3rem] p-12 md:p-16 overflow-hidden shadow-2xl">
             {/* Static background */}
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff15_1px,transparent_1px),linear-gradient(to_bottom,#ffffff15_1px,transparent_1px)] bg-[size:2rem_2rem]" />
-            
+
             <div className="relative text-center">
               <div className="inline-block mb-6">
                 <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center shadow-2xl border border-white/30">
