@@ -339,7 +339,7 @@ export default function Landing() {
                   <AlertCircle className="w-6 h-6 text-white" />
                 </div>
                 <span className="text-xl font-semibold bg-gradient-to-r from-[#ff9a47] to-orange-500 bg-clip-text text-transparent">
-                  Jagruk
+                  OCTAVE
                 </span>
               </div>
               <p className="text-gray-600 max-w-sm">
@@ -363,7 +363,7 @@ export default function Landing() {
             <div>
               <h4 className="text-base font-semibold text-gray-900 mb-4">Contact</h4>
               <ul className="space-y-2 text-gray-600">
-                <li className="text-sm">support@jagruk.com</li>
+                <li className="text-sm">support@octave.com</li>
                 <li className="text-sm">+91 1234567890</li>
               </ul>
             </div>
@@ -371,7 +371,7 @@ export default function Landing() {
 
           <div className="border-t border-gray-200 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-gray-600 text-sm">
-              &copy; 2025 Jagruk. All rights reserved.
+              &copy; 2025 OCTAVE. All rights reserved.
             </p>
             <div className="flex gap-6">
               {["Privacy", "Terms", "Cookies"].map((item) => (

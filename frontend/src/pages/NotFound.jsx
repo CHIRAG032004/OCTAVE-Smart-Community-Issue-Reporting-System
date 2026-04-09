@@ -24,7 +24,7 @@ export default function NotFound() {
       <div className="relative z-10 text-center px-6 -top-12">
         <div className="inline-flex items-center gap-2 bg-white/60 backdrop-blur-sm border border-gray-200/50 rounded-full px-4 py-2 mb-8 shadow-sm">
           <Sparkles className="w-4 h-4 text-[#ff9a47]" />
-          <span className="text-sm text-gray-700">Stay Aware. Stay Jagruk.</span>
+          <span className="text-sm text-gray-700">Stay Aware. Stay OCTAVE.</span>
         </div>
 
         <div className="flex justify-center mb-6">
@@ -64,7 +64,7 @@ export default function NotFound() {
 
       {/* Footer message */}
       <div className="absolute bottom-20 text-gray-500 text-sm">
-        &copy; 2025 Jagruk • Building Better Communities
+        &copy; 2025 OCTAVE - Building Better Communities
       </div>
     </div>
   );

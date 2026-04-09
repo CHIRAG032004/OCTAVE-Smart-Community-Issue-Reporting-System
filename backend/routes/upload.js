@@ -38,7 +38,7 @@ router.post('/upload', async (req, res) => {
         }
 
         const result = await cloudinary.v2.uploader.upload(file.tempFilePath, {
-            folder: 'JagrukImageContainer'
+            folder: 'OctaveImageContainer'
         });
 
         await removeTmp(file.tempFilePath);

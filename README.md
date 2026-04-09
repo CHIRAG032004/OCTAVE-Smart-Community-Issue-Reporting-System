@@ -8,7 +8,7 @@ Urban communities often face challenges in reporting and managing local issues s
 
 ## Solution
 
-Jagruk is a web application that allows citizens to report local issues with GPS-tagged locations and AI-powered categorization. The platform features an interactive map for visualizing reported issues, a dashboard for administrators to track and manage reports, and community voting to prioritize resolutions. Built with React, Node.js, and MongoDB, the system integrates services like Appwrite for authentication, Cloudinary for image handling, and OpenRouter AI for issue categorization.
+OCTAVE is a web application that allows citizens to report local issues with GPS-tagged locations and AI-powered categorization. The platform features an interactive map for visualizing reported issues, a dashboard for administrators to track and manage reports, and community voting to prioritize resolutions. Built with React, Node.js, and MongoDB, the system integrates services like Appwrite for authentication, Cloudinary for image handling, and OpenRouter AI for issue categorization.
 
 ## Features
 
